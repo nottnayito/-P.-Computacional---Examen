@@ -1,0 +1,202 @@
+// variables globales del trabajo
+let pantalla = 1;
+
+//variables de imagenes
+let imgLogo;
+let imgMascota1;
+let imgMascota2;
+let imgMascota3;
+let mascotaSeleccionada = 1;
+let imagenFinalMascota;
+
+// Variable de sonido
+let musicaFondo;
+
+// Variables de movimiento (Pantalla 3)
+let xMascota = 250;
+let yMascota = 180;
+let velocidadMascota = 1.5;
+let mostrarCorazones = false;
+let tiempoCorazones = 0;
+
+// variables de colores
+let botonesColor;
+let caja;
+
+// Presubido de imagenes y audio
+function preload() {
+  imgLogo = loadImage("logo.png");
+  imgMascota1 = loadImage("mascota1.png");
+  imgMascota2 = loadImage("mascota2.png");
+  imgMascota3 = loadImage("mascota3.png");
+
+  musicaFondo = loadSound("musica.mp3.mpeg");
+}
+
+function setup() {
+  createCanvas(500, 400);
+  botonesColor = color(115, 210, 255);
+  caja = color(250, 100, 150);
+  imageMode(CENTER);
+  textAlign(CENTER, CENTER);
+}
+
+function draw() {
+  background(250, 180, 170);
+
+  // diferenciacion de pantallas
+  if (pantalla === 1) {
+    dibujarPantalla1();
+  } else if (pantalla === 2) {
+    dibujarPantalla2();
+  } else if (pantalla === 3) {
+    dibujarPantalla3();
+  }
+}
+
+// dibujo del aparato Tamagotchi
+function dibujarCarcasa() {
+  noStroke();
+  fill(caja);
+  circle(250, 40, 30);
+  fill(250, 180, 170);
+  circle(250, 40, 15);
+  fill(caja);
+  ellipse(250, 200, 280, 320);
+
+  fill(150);
+  rect(150, 120, 200, 120); // Pantalla gris
+
+  // tres botones celestes
+  fill(botonesColor);
+  circle(200, 300, 24); // Botón Izquierdo
+  circle(250, 280, 24); // Botón Central
+  circle(300, 300, 24); // Botón Derecho
+
+  // Los pequeños agujeros de parlante
+  fill(200, 50, 100);
+  for (let i = 0; i < 3; i++) {
+    circle(225 + i * 25, 330, 8);
+  }
+}
+
+// PANTALLA 1: Inicio
+function dibujarPantalla1() {
+  dibujarCarcasa();
+  image(imgLogo, width / 2 - 2, height / 2 - 20, 550, 280);
+  fill(255);
+  textSize(15);
+  text("Press Enter", width / 2 - 1, height * 0.95);
+}
+
+// PANTALLA 2: Selección de mascota
+function dibujarPantalla2() {
+  dibujarCarcasa();
+  fill(255);
+  textSize(20);
+  text("<", 170, 180);
+  text(">", 330, 180);
+  textSize(12);
+  text("¡ Choose your friend !", 250, 140);
+  textSize(10);
+  text("Press the middle button", 250, 225);
+
+  // Mostramos la mascota que corresponde al número
+  if (mascotaSeleccionada === 1) {
+    image(imgMascota1, 250, 180, 60, 60);
+  } else if (mascotaSeleccionada === 2) {
+    image(imgMascota2, 250, 180, 60, 60);
+  } else if (mascotaSeleccionada === 3) {
+    image(imgMascota3, 250, 180, 60, 60);
+  }
+}
+
+// PANTALLA 3: Interacción de click
+function dibujarPantalla3() {
+  dibujarCarcasa();
+
+  fill(255);
+  textSize(12);
+  text("¡ Pet me :3 !", 250, 140);
+
+  // la mascota se mueve sumando velocidad a su X
+  xMascota = xMascota + velocidadMascota;
+
+  // cambia el lado y velocidad del movimiento
+  if (xMascota > 320 || xMascota < 180) {
+    velocidadMascota = velocidadMascota * -1;
+    yMascota = random(170, 190);
+  }
+
+  // se muestra la mascota elegida
+  if (imagenFinalMascota) {
+    image(imagenFinalMascota, xMascota, yMascota, 60, 60);
+  }
+
+  // al hacer click sobre la mascota salen unos corazones
+  if (mostrarCorazones === true) {
+    textSize(16);
+    text("❤️", xMascota - 20, yMascota - 30);
+    text("❤️", xMascota + 20, yMascota - 30);
+
+    tiempoCorazones = tiempoCorazones - 1; // descuenta tiempo en cada fotograma
+    if (tiempoCorazones <= 0) {
+      mostrarCorazones = false; // oculta los corazones
+    }
+  }
+}
+
+// teclado
+function keyPressed() {
+  if (keyCode === ENTER && pantalla === 1) {
+    pantalla = 2;
+    musicaFondo.loop(); // activa la música
+  }
+}
+
+// click del mouse
+function mousePressed() {
+  if (pantalla === 2) {
+    // flecha izquierda (<)
+    if (mouseX >= 160 && mouseX <= 185 && mouseY >= 165 && mouseY <= 195) {
+      mascotaSeleccionada = mascotaSeleccionada - 1;
+      if (mascotaSeleccionada < 1) {
+        mascotaSeleccionada = 3;
+      }
+    }
+
+    // flecha derecha (>)
+    if (mouseX >= 315 && mouseX <= 340 && mouseY >= 165 && mouseY <= 195) {
+      mascotaSeleccionada = mascotaSeleccionada + 1;
+      if (mascotaSeleccionada > 3) {
+        mascotaSeleccionada = 1;
+      }
+    }
+
+    // botón central
+    let distBotonCentral = dist(mouseX, mouseY, 250, 280);
+    if (distBotonCentral < 12) {
+      if (mascotaSeleccionada === 1) imagenFinalMascota = imgMascota1;
+      if (mascotaSeleccionada === 2) imagenFinalMascota = imgMascota2;
+      if (mascotaSeleccionada === 3) imagenFinalMascota = imgMascota3;
+      pantalla = 3; // interaccion
+    }
+  }
+
+  // Pantalla 3
+  else if (pantalla === 3) {
+    // Revisa la distancia entre el puntero del mouse y la mascota en movimiento
+    let distMascota = dist(mouseX, mouseY, xMascota, yMascota);
+
+    // click sobre la mascota
+    if (distMascota < 40) {
+      mostrarCorazones = true;
+      tiempoCorazones = 45; // tiempo duracion de corazones
+
+      velocidadMascota = random(1, 3.5); // cambio en velocidad del movimiento
+
+      if (velocidadMascota > 0) {
+      }
+    }
+  }
+}
