@@ -1,8 +1,3 @@
-¡Hola, Nayomi! Claro que sí. El texto que escribiste ya tiene una excelente estructura. Lo que hice fue corregir algunos detalles de ortografía (como tildes y mayúsculas), acomodar los códigos de las imágenes para que se mantengan centradas y ordenadas, y formatear los subtítulos y listas usando Markdown para que se vea impecable y profesional en tu repositorio de GitHub.
-
-Aquí tienes el código listo. Solo debes copiar todo el contenido del recuadro de abajo y pegarlo en tu archivo README.md en GitHub:
-
-Markdown
 # P.-Computacional_Examen
 **Nayomi Miranda** - Sección 1 - Tamagotchi
 
