@@ -2,7 +2,7 @@
 **Nayomi Miranda** - Sección 1 - Tamagotchi
 
 ### Sistema Interactivo
-👉 [Ver proyecto en p5.js editor](https://editor.p5js.org/nayomi.miranda/sketches/_fkFFLov5)
+https://editor.p5js.org/nayomi.miranda/sketches/_fkFFLov5
 
 <p align="center">
   <img width="496" height="349" alt="Interfaz del Sistema" src="https://github.com/user-attachments/assets/843725ca-3fc0-46ef-b667-ddf384b6eb8a" />
